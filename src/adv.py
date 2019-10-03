@@ -1,5 +1,5 @@
 from room import Room
-import os
+from item import Item
 import textwrap
 from player import Player
 
@@ -7,14 +7,14 @@ from player import Player
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mount beckons",),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
+passages run north and east.""",),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+the distance, but there is no way across the chasm.""",),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air."""),
@@ -24,8 +24,23 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
 
+item = {
+    'outside':[Item('shovel',"A need to dig away the burrow"), Item('axe','A part needs to be broken')],
+    'foyer':[Item('torch',"Into the dark, yea needs the light"), Item('mask','A need to protect your nose')],
+    'overlook':[Item('rope','The mountains has no stairways'), Item('hook','Hook before you leap')],
+    'narrow':[Item('expander','Just a little space more for you to pass'),Item('sledge', "In case it can't be expanded it can be broken")],
+    'treasure':[Item('map','Your here but to get it you need a map'), Item('shovel','Clear away the dirt')]
+}
 
 # Link rooms together
+room['outside'].items = item['outside']
+room['foyer'].items = item['foyer']
+room['overlook'].items= item['overlook']
+room['narrow'].items= item['narrow']
+room['treasure'].items=item['treasure']
+
+
+
 
 room['outside'].n_to = room['foyer']
 room['foyer'].s_to = room['outside']
@@ -50,13 +65,14 @@ if(name):
     while True:
         print(f'Welcome {name} to the {player.current_room.name} room')
     # * Prints the current room name
-        print(player.current_room.description)
+        print(f'{player.current_room.description},\nItems:')
+        player.current_room.printItems()
 
         print('Enter Direction(n, w , s , e):')
         x = input()
         # xdir = x +'_to'
-        # if(hasattr(player.current_room, xdir)):
-        #     xvalue = getattr(player, current_room)
+        # if(hasattr(player.current_room, xdir) != None):
+        #     xvalue = player.current_room.
         if(x == 'n'):
             xvalue = player.current_room.n_to
         elif(x == 's'):
@@ -65,6 +81,9 @@ if(name):
             xvalue = player.current_room.w_to
         elif(x == 'e'):
             xvalue = player.current_room.e_to
+        elif(x == 'q'):
+            print(f'Goodbye {name}')
+            break
         else:
             print('Invalid direction')
             continue
