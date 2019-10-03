@@ -1,5 +1,7 @@
 from room import Room
+import os
 import textwrap
+from player import Player
 
 # Declare all the rooms
 
@@ -39,25 +41,47 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
+print('Welcome to Adventure Game.\nStart by Inputting your name:')
+name = input()
+if(name):
+    player = Player(name, room['outside'])
 
-class NewPlayer:
-    def __init__ (self , room):
-        self.room : room
-
-    def __str__ (self):
-        return 
-
-newplayer = NewPlayer('outside')
 # Write a loop that:
-#
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
+    while True:
+        print(f'Welcome {name} to the {player.current_room.name} room')
+    # * Prints the current room name
+        print(player.current_room.description)
 
-# * Waits for user input and decides what to do.
-#
-print('Enter Direction:')
-x = input()
-# If the user enters a cardinal direction, attempt to move to the room there.
+        print('Enter Direction(n, w , s , e):')
+        x = input()
+        # xdir = x +'_to'
+        # if(hasattr(player.current_room, xdir)):
+        #     xvalue = getattr(player, current_room)
+        if(x == 'n'):
+            xvalue = player.current_room.n_to
+        elif(x == 's'):
+            xvalue = player.current_room.s_to
+        elif(x == 'w'):
+            xvalue = player.current_room.w_to
+        elif(x == 'e'):
+            xvalue = player.current_room.e_to
+        else:
+            print('Invalid direction')
+            continue
+            # If the user enters a cardinal direction, attempt to move to the room there.
+        if(xvalue != None):
+            player.current_room = xvalue
+            continue
+        else:
+            print('You are not allowed')
+            
+    # * Prints the current description (the textwrap module might be useful here).
+
+    # * Waits for user input and decides what to do.
+    #
+
+else:
+    print('You have not entered your name')
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
