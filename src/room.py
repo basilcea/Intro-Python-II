@@ -13,8 +13,16 @@ class Room:
         self.items = items
 
     def printItems(self):
+        items=[]
         for i in self.items:
-            print (i.name)
+            items.append(i.name)
+            print (f' {i.name}')
+        return items
+    def removeItems(self, name):
+        for i in self.items:
+            if i.name == name:
+                self.items.remove(i)
+        return self.items
 
     def __str__(self):
-        return f'{self.name}\n{self.description}'
+        return f'{self.name}\n{self.description}\n{self.items}'

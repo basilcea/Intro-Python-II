@@ -63,36 +63,48 @@ if(name):
 
 # Write a loop that:
     while True:
-        print(f'Welcome {name} to the {player.current_room.name} room')
+        print(f'\nWelcome {name} to the {player.current_room.name} room')
     # * Prints the current room name
-        print(f'{player.current_room.description},\nItems:')
+        print(f'{player.current_room.description},\n\nItems:')
         player.current_room.printItems()
 
-        print('Enter Direction(n, w , s , e):')
+        print('\nEnter Direction:\n\n n for north\n s for south\n w for west\n e for east\n\nor Pick an Item using keyword "get" or "take" ,E.g get shovel:')
         x = input()
-        # xdir = x +'_to'
-        # if(hasattr(player.current_room, xdir) != None):
-        #     xvalue = player.current_room.
-        if(x == 'n'):
-            xvalue = player.current_room.n_to
-        elif(x == 's'):
-            xvalue = player.current_room.s_to
-        elif(x == 'w'):
-            xvalue = player.current_room.w_to
-        elif(x == 'e'):
-            xvalue = player.current_room.e_to
-        elif(x == 'q'):
-            print(f'Goodbye {name}')
-            break
-        else:
-            print('Invalid direction')
-            continue
-            # If the user enters a cardinal direction, attempt to move to the room there.
-        if(xvalue != None):
-            player.current_room = xvalue
-            continue
-        else:
-            print('You are not allowed')
+        inputs = x.split()
+        if(len(inputs) == 1):
+            # xdir = x +'_to'
+            # if(hasattr(player.current_room, xdir) != None):
+            #     xvalue = player.current_room.
+            if(x == 'n'):
+                xvalue = player.current_room.n_to
+            elif(x == 's'):
+                xvalue = player.current_room.s_to
+            elif(x == 'w'):
+                xvalue = player.current_room.w_to
+            elif(x == 'e'):
+                xvalue = player.current_room.e_toq
+            elif(x == 'q'):
+                print(f'Goodbye {name}')
+                break
+            else:
+                print('Invalid Direction')
+                continue
+                # If the user enters a cardinal direction, attempt to move to the room there.
+            if(xvalue != None):
+                player.current_room = xvalue
+                continue
+            else:
+                print('You are not allowed')
+        if(len(inputs) ==2):
+            if(x.startswith('take ') or x.startswith('get ')):
+        
+                if inputs[1] in player.current_room.printItems():
+                    player.addItem(inputs[1])
+                    player.current_room.removeItems(inputs[1])
+                    print(player.inventory)
+                else:
+                    print(f'Item {inputs[1]} is not in room {player.current_room.name}')
+
             
     # * Prints the current description (the textwrap module might be useful here).
 

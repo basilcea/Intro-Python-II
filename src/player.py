@@ -9,6 +9,6 @@ class Player:
     def addItem(self, value):
         return self.inventory.append(value)
     def __str__ (self):
-        return f'{self.name} ,{self.current_room}'
+        return f'{self.name} ,{self.current_room}, {self.inventory}'
 
     
