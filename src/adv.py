@@ -25,21 +25,19 @@ earlier adventurers. The only exit is to the south."""),
 }
 
 item = {
-    'outside':[Item('shovel',"A need to dig away the burrow"), Item('axe','A part needs to be broken')],
-    'foyer':[Item('torch',"Into the dark, yea needs the light"), Item('mask','A need to protect your nose')],
-    'overlook':[Item('rope','The mountains has no stairways'), Item('hook','Hook before you leap')],
-    'narrow':[Item('expander','Just a little space more for you to pass'),Item('sledge', "In case it can't be expanded it can be broken")],
-    'treasure':[Item('map','Your here but to get it you need a map'), Item('shovel','Clear away the dirt')]
+    'outside': [Item('shovel', "A need to dig away the burrow"), Item('axe', 'A part needs to be broken')],
+    'foyer': [Item('torch', "Into the dark, yea needs the light"), Item('mask', 'A need to protect your nose')],
+    'overlook': [Item('rope', 'The mountains has no stairways'), Item('hook', 'Hook before you leap')],
+    'narrow': [Item('expander', 'Just a little space more for you to pass'), Item('sledge', "In case it can't be expanded it can be broken")],
+    'treasure': [Item('map', 'Your here but to get it you need a map'), Item('shovel', 'Clear away the dirt')]
 }
 
 # Link rooms together
 room['outside'].items = item['outside']
 room['foyer'].items = item['foyer']
-room['overlook'].items= item['overlook']
-room['narrow'].items= item['narrow']
-room['treasure'].items=item['treasure']
-
-
+room['overlook'].items = item['overlook']
+room['narrow'].items = item['narrow']
+room['treasure'].items = item['treasure']
 
 
 room['outside'].n_to = room['foyer']
@@ -95,21 +93,29 @@ if(name):
                 continue
             else:
                 print('You are not allowed')
-        if(len(inputs) ==2):
+        if(len(inputs) == 2):
             if(x.startswith('take ') or x.startswith('get ')):
-        
                 if inputs[1] in player.current_room.printItems():
-                    player.addItem(inputs[1])
-                    player.current_room.removeItems(inputs[1])
-                    print(player.inventory)
+                    item = player.current_room.getItemsObject(inputs[1])
+                    player.current_room.removeItems(item)
+                    player.addItem(item)
                 else:
-                    print(f'Item {inputs[1]} is not in room {player.current_room.name}')
+                    print(
+                        f'Item {inputs[1]} is not in room {player.current_room.name}')
+            if(x.startswith('drop ')):
+                  if inputs[1] in player.inventory.printItems():
+                    item = player.current_room.getItemsObject(inputs[1])
+                    player.current_room.removeItems(item)
+                    player.addItem(item)
+                else:
+                    print(
+                        f'Item {inputs[1]} is not in room {player.current_room.name}')
 
-            
-    # * Prints the current description (the textwrap module might be useful here).
 
-    # * Waits for user input and decides what to do.
-    #
+                # * Prints the current description (the textwrap module might be useful here).
+
+                # * Waits for user input and decides what to do.
+                #
 
 else:
     print('You have not entered your name')
